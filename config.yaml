@@ -1,0 +1,11 @@
+optimizers:
+  - 'COBYLA'
+number_of_nodes_quantum:
+  - 3
+  - 4
+  - 5
+number_of_nodes_classical:
+  - 3
+  - 4
+  - 5
+result_directory: ".saved_result"
