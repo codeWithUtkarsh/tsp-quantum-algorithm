@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import math
 import time
+import yaml
 import logging
 import numpy as np
 from scipy.optimize import minimize
@@ -19,16 +20,17 @@ from src.DecodeBitstringTSP import generate_city_sequences
 
 logger = logging.getLogger(__name__)
 
+config_file = "./config.yaml"
+with open(config_file, "r") as file:
+    config = yaml.safe_load(file)
+
+token = config['token']
+instance = config['instance']
+
 def get_backend(num_qubits, use_simulator):
     QiskitRuntimeService.delete_account()
-
-    QiskitRuntimeService.save_account(
-        token="0oZvOcWcHiCTQyyGO1fs-1AwZREj7PFl3K2CoYl7fkTX",
-        instance="crn:v1:bluemix:public:quantum-computing:us-east:a/0d5f2945f5c44fd6a69d8a9dd034808c:2e832f3b-b7a7-466c-b735-53a9ed77d94b::",
-        overwrite=True)
-
+    QiskitRuntimeService.save_account(token=token,instance=instance,overwrite=True)
     service = QiskitRuntimeService()
-
     if use_simulator:
         real_backend = service.least_busy(
             operational=True, simulator=False, min_num_qubits=num_qubits * num_qubits
@@ -38,7 +40,7 @@ def get_backend(num_qubits, use_simulator):
         return simulator
     else:
         return service.least_busy(
-            operational=True, simulator=False, min_num_qubits=num_qubits
+            operational=True, simulator=False, min_num_qubits=num_qubits * num_qubits
         )
 
 def run_qaoa(
@@ -100,7 +102,7 @@ def run_qaoa(
         options={'maxiter': max_iter, 'disp': True}
     )
     quantum_result_attributes['iterations'] = result['nfev']
-    quantum_result_attributes['optimization_time'] = time.time() - start_time
+    quantum_result_attributes['optimization_time(sec)'] = time.time() - start_time
 
     # Sample final circuit
     sampler = Sampler(_backend)
@@ -196,6 +198,3 @@ def process(
 
     save_attributes(quantum_result_attributes, num_cities)
     save_attributes(distribution_attributes, num_cities)
-    
-if __name__ == "__main__":
-    main()

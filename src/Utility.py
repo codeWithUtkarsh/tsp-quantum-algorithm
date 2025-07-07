@@ -38,7 +38,7 @@ def estimate_quantum_circuit(backend, qc, num_vertices):
             estimated_time += gate_durations[key]
 
     return {
-        "circuit_execution_estimated_time": estimated_time,
+        "circuit_execution_estimated_time(ns)": estimated_time,
         "transpiled_circuit_depth": qc.depth(),
         "transpiled_gate_count": qc.size(),
         "backend_in_use": backend,

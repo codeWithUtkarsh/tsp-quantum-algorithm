@@ -4,9 +4,9 @@ optimizers: ['COBYLA']
 num_cities_list: [2, 3]
 penalty_weight: 0.01
 use_simulator: true
-shots: 1024
+shots: 2000
 max_iter: 100
 
-channel: 'ibm_quantum'
-instance: 'ibm-q/open/main'
-token: '28213ae1ea07c5b830559b81d8beaf2b3f0c620e743b192d6a25cf7d171b4cbe59f0df5e45a629503cef63f4e01a8c54aece1bec67e28f3c5da465a18ced2fe0'
+
+instance: 'crn:v1:bluemix:public:quantum-computing:us-east:a/0d5f2945f5c44fd6a69d8a9dd034808c:2e832f3b-b7a7-466c-b735-53a9ed77d94b::'
+token: '0oZvOcWcHiCTQyyGO1fs-1AwZREj7PFl3K2CoYl7fkTX'

@@ -11,3 +11,9 @@
 2025-07-07 00:50:33,293 - root - INFO - ++++++++++++++++ Starting at 2025-07-07 00:50:33.293295 +++++++++++++++++
 2025-07-07 00:50:33,293 - src.ProcessQaoa - INFO - Derived p_level:: 2
 2025-07-07 00:52:06,216 - src.ProcessQaoa - INFO - Derived p_level:: 4
+2025-07-07 02:14:22,956 - root - INFO - ++++++++++++++++ Starting at 2025-07-07 02:14:22.956327 +++++++++++++++++
+2025-07-07 02:14:22,956 - src.ProcessQaoa - INFO - Derived p_level:: 2
+2025-07-07 02:16:07,595 - src.ProcessQaoa - INFO - Derived p_level:: 4
+2025-07-07 02:21:41,238 - root - INFO - ++++++++++++++++ Starting at 2025-07-07 02:21:41.238892 +++++++++++++++++
+2025-07-07 02:21:41,239 - src.ProcessQaoa - INFO - Derived p_level:: 2
+2025-07-07 02:23:06,056 - src.ProcessQaoa - INFO - Derived p_level:: 4
