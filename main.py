@@ -1,25 +1,50 @@
+from os import mkdir
+from os.path import exists
+
 import yaml
-from src.Exterpolate import extrapolate, extrapolate_quantum
-from src.RunAlgoWithDocplex import QuantumTSPRunner
+import logging
+import sys
+import datetime
+
+from src.ProcessQaoa import process
+
 
 config_file = "./config.yaml"
 with open(config_file, "r") as file:
     config = yaml.safe_load(file)
-number_of_nodes_quantum = config['number_of_nodes_quantum']
+
 output_dir = config.get('output_dir', '.saved_result')
-result_directory = config['result_directory']
+if not exists(output_dir):
+    mkdir(output_dir)
+
+num_cities_list = config['num_cities_list']
+use_simulator = config['use_simulator']
+penalty_weight = config['penalty_weight']
+max_iter = config['max_iter']
+shots = config['shots']
+
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.StreamHandler(sys.stdout),
+        logging.FileHandler(f'{output_dir}/app.log'),
+    ]
+)
+
+logging.getLogger('qiskit').setLevel(logging.WARNING)
 
 def main():
-    runner = QuantumTSPRunner()
-    runner.run_all_samples()
+    logging.info(f'++++++++++++++++ Starting at {datetime.datetime.now()} +++++++++++++++++')
 
-    plt = extrapolate_quantum(
-                      '.saved_result/algo_with_docplex/quantum_tsp_results_final.pkl')
-
-    # plt = extrapolate('.saved_result/algo_with_docplex/classical_tsp_results_final.csv', '.saved_result/algo_with_docplex/quantum_tsp_results_final.pkl')
-    plt.savefig(f'{output_dir}/quantum_classical_comparison_improved.png', dpi=300, bbox_inches='tight')
-
-    print("Process completed successfully!")
+    for num_cities in num_cities_list:
+        process(
+            num_cities=num_cities,
+            penalty_weight=penalty_weight,
+            max_iter=max_iter,
+            shots=shots,
+            use_simulator = True)
 
 if __name__ == "__main__":
     main()

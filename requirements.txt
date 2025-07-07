@@ -3,7 +3,9 @@ numpy
 qiskit-optimization
 psutil
 matplotlib
-qiskit==1.1.0
+qiskit==2.0.3
 py-cpuinfo
 pandas
-qiskit-aer==0.14.2
+qiskit-aer
+qiskit-algorithms
+qiskit-ibm-runtime

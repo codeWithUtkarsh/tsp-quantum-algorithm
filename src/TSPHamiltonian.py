@@ -5,27 +5,9 @@ import random
 
 
 class TSPHamiltonian:
-    """
-    Create Hamiltonian for Traveling Salesman Problem with ALL constraints
-    matching the reference implementation.
-
-    The TSP Hamiltonian consists of:
-    1. Distance cost: sum of weights for selected edges (only existing edges)
-    2. Three constraint penalties:
-       a. Each city visited exactly once
-       b. Each position has exactly one city
-       c. Non-existent edges cannot be consecutive
-    """
 
     def __init__(self, n_cities, distances=None, seed=None):
-        """
-        Initialize TSP Hamiltonian
 
-        Args:
-            n_cities: Number of cities
-            distances: Distance matrix (optional, random if not provided)
-            seed: Random seed for reproducibility
-        """
         self.n_cities = n_cities
         self.n_qubits = n_cities * n_cities  # Position-based encoding: x_{i,k}
 
@@ -34,7 +16,7 @@ class TSPHamiltonian:
             random.seed(seed)
 
         if distances is None:
-            self.distances = self._generate_random_distances()
+            self.distances = self.generate_random_distances()
         else:
             self.distances = distances
 
@@ -70,13 +52,11 @@ class TSPHamiltonian:
         else:
             return hamiltonian, tsp
 
-    def _generate_random_distances(self):
-        """Generate random distance matrix for TSP"""
-        # Generate random city positions
-        positions = np.random.uniform(0, 10, size=(self.n_cities, 2))
+    def generate_random_distances(self):
 
-        # Calculate pairwise distances
+        positions = np.random.uniform(0, 10, size=(self.n_cities, 2))
         distances = np.zeros((self.n_cities, self.n_cities))
+
         for i in range(self.n_cities):
             for j in range(i + 1, self.n_cities):
                 dist = np.sqrt(np.sum((positions[i] - positions[j]) ** 2))
@@ -639,83 +619,83 @@ class TSPHamiltonian:
         plt.show()
 
 
-# def demonstrate_tsp_hamiltonian():
-#     """Comprehensive demonstration of TSP Hamiltonian with all constraints"""
-#
-#     print("=== TSP Hamiltonian with All Constraints and QUBO ===\n")
-#
-#     # Create a small TSP instance
-#     n_cities = 4
-#     tsp = TSPHamiltonian(n_cities, seed=42)
-#
-#     print(f"Number of cities: {n_cities}")
-#     print(f"Number of qubits: {tsp.n_qubits}")
-#     print("\nDistance matrix:")
-#     print(tsp.distances)
-#
-#     # Test 1: Complete graph
-#     print("\n=== Test 1: Complete Graph (All Edges Exist) ===")
-#     hamiltonian_complete = tsp.create_hamiltonian(penalty_weight=10.0)
-#     print(f"Number of Hamiltonian terms: {len(hamiltonian_complete)}")
-#
-#     # Create and analyze QUBO
-#     qubo_complete, offset_complete = tsp.create_qubo(penalty_weight=10.0)
-#     print(f"QUBO matrix size: {qubo_complete.shape}")
-#     print(f"Non-zero QUBO entries: {np.count_nonzero(qubo_complete)}")
-#     print(f"QUBO constant offset: {offset_complete:.4f}")
-#
-#     # Print QUBO details
-#     tsp.print_qubo_details(penalty_weight=10.0, max_terms=5)
-#
-#     # Test 2: Partial graph with edge constraints
-#     print("\n=== Test 2: Partial Graph with Edge Constraints ===")
-#     partial_edges = [(0, 1), (1, 2), (2, 3), (0, 3)]
-#     hamiltonian_partial = tsp.create_hamiltonian(penalty_weight=10.0, edge_list=partial_edges)
-#     qubo_partial, offset_partial = tsp.create_qubo(penalty_weight=10.0, edge_list=partial_edges)
-#
-#     print(f"Existing edges: {partial_edges}")
-#     print(f"Number of Hamiltonian terms: {len(hamiltonian_partial)}")
-#     print(f"Non-zero QUBO entries: {np.count_nonzero(qubo_partial)}")
-#     print(
-#         f"Additional QUBO entries: {np.count_nonzero(qubo_partial) - np.count_nonzero(qubo_complete)} (from non-edge constraints)")
-#
-#     # Test solution validation
-#     print("\n=== Test 3: Solution Validation ===")
-#     test_solution = '1000010000100001'  # city 0→1→2→3→0
-#     tour = tsp.decode_solution(test_solution)
-#     print(f"Tour: {tour}")
-#     print(f"Distance: {tsp.calculate_tour_distance(tour)}")
-#
-#     # Verify solution using QUBO
-#     print("\n=== QUBO Verification ===")
-#     energy_complete = tsp.verify_qubo(test_solution, penalty_weight=10.0)
-#     energy_partial = tsp.verify_qubo(test_solution, penalty_weight=10.0, edge_list=partial_edges)
-#
-#     print(f"Complete graph QUBO energy: {energy_complete:.4f}")
-#     print(f"Partial graph QUBO energy: {energy_partial:.4f}")
-#
-#     # Save QUBO in different formats
-#     print("\n=== Saving QUBO Files ===")
-#     tsp.save_qubo_to_file("tsp_complete.qubo", penalty_weight=10.0, format='dict')
-#     tsp.save_qubo_to_file("tsp_complete_matrix.txt", penalty_weight=10.0, format='matrix')
-#     tsp.save_qubo_to_file("tsp_partial.qbsolv", penalty_weight=10.0, edge_list=partial_edges, format='qbsolv')
-#
-#     # Show QUBO dictionary format
-#     print("\n=== QUBO Dictionary Format ===")
-#     qubo_dict, offset = tsp.create_qubo_dict(penalty_weight=10.0, edge_list=partial_edges)
-#     print(f"Number of QUBO terms: {len(qubo_dict)}")
-#     print(f"Sample QUBO entries:")
-#     for i, ((i, j), value) in enumerate(list(qubo_dict.items())[:5]):
-#         city1, pos1 = tsp._decode_qubit_index(i)
-#         city2, pos2 = tsp._decode_qubit_index(j)
-#         print(f"  ({i},{j}): {value:.4f} - x_{{{city1},{pos1}}} * x_{{{city2},{pos2}}}")
-#
-#     # Visualize both graphs
-#     print("\n=== Visualization ===")
-#     tsp.visualize_graph(tour, edge_list=None)  # Complete graph
-#     tsp.visualize_graph(tour, edge_list=partial_edges)  # Partial graph
-#
-#     return tsp, hamiltonian_complete, qubo_complete, hamiltonian_partial, qubo_partial
+def demonstrate_tsp_hamiltonian():
+    """Comprehensive demonstration of TSP Hamiltonian with all constraints"""
+
+    print("=== TSP Hamiltonian with All Constraints and QUBO ===\n")
+
+    # Create a small TSP instance
+    n_cities = 4
+    tsp = TSPHamiltonian(n_cities, seed=42)
+
+    print(f"Number of cities: {n_cities}")
+    print(f"Number of qubits: {tsp.n_qubits}")
+    print("\nDistance matrix:")
+    print(tsp.distances)
+
+    # Test 1: Complete graph
+    print("\n=== Test 1: Complete Graph (All Edges Exist) ===")
+    hamiltonian_complete = tsp.create_hamiltonian(penalty_weight=10.0)
+    print(f"Number of Hamiltonian terms: {len(hamiltonian_complete)}")
+
+    # Create and analyze QUBO
+    qubo_complete, offset_complete = tsp.create_qubo(penalty_weight=10.0)
+    print(f"QUBO matrix size: {qubo_complete.shape}")
+    print(f"Non-zero QUBO entries: {np.count_nonzero(qubo_complete)}")
+    print(f"QUBO constant offset: {offset_complete:.4f}")
+
+    # Print QUBO details
+    tsp.print_qubo_details(penalty_weight=10.0, max_terms=5)
+
+    # Test 2: Partial graph with edge constraints
+    print("\n=== Test 2: Partial Graph with Edge Constraints ===")
+    partial_edges = [(0, 1), (1, 2), (2, 3), (0, 3)]
+    hamiltonian_partial = tsp.create_hamiltonian(penalty_weight=10.0, edge_list=partial_edges)
+    qubo_partial, offset_partial = tsp.create_qubo(penalty_weight=10.0, edge_list=partial_edges)
+
+    print(f"Existing edges: {partial_edges}")
+    print(f"Number of Hamiltonian terms: {len(hamiltonian_partial)}")
+    print(f"Non-zero QUBO entries: {np.count_nonzero(qubo_partial)}")
+    print(
+        f"Additional QUBO entries: {np.count_nonzero(qubo_partial) - np.count_nonzero(qubo_complete)} (from non-edge constraints)")
+
+    # Test solution validation
+    print("\n=== Test 3: Solution Validation ===")
+    test_solution = '1000010000100001'  # city 0→1→2→3→0
+    tour = tsp.decode_solution(test_solution)
+    print(f"Tour: {tour}")
+    print(f"Distance: {tsp.calculate_tour_distance(tour)}")
+
+    # Verify solution using QUBO
+    print("\n=== QUBO Verification ===")
+    energy_complete = tsp.verify_qubo(test_solution, penalty_weight=10.0)
+    energy_partial = tsp.verify_qubo(test_solution, penalty_weight=10.0, edge_list=partial_edges)
+
+    print(f"Complete graph QUBO energy: {energy_complete:.4f}")
+    print(f"Partial graph QUBO energy: {energy_partial:.4f}")
+
+    # Save QUBO in different formats
+    print("\n=== Saving QUBO Files ===")
+    tsp.save_qubo_to_file("tsp_complete.qubo", penalty_weight=10.0, format='dict')
+    tsp.save_qubo_to_file("tsp_complete_matrix.txt", penalty_weight=10.0, format='matrix')
+    tsp.save_qubo_to_file("tsp_partial.qbsolv", penalty_weight=10.0, edge_list=partial_edges, format='qbsolv')
+
+    # Show QUBO dictionary format
+    print("\n=== QUBO Dictionary Format ===")
+    qubo_dict, offset = tsp.create_qubo_dict(penalty_weight=10.0, edge_list=partial_edges)
+    print(f"Number of QUBO terms: {len(qubo_dict)}")
+    print(f"Sample QUBO entries:")
+    for i, ((i, j), value) in enumerate(list(qubo_dict.items())[:5]):
+        city1, pos1 = tsp._decode_qubit_index(i)
+        city2, pos2 = tsp._decode_qubit_index(j)
+        print(f"  ({i},{j}): {value:.4f} - x_{{{city1},{pos1}}} * x_{{{city2},{pos2}}}")
+
+    # Visualize both graphs
+    print("\n=== Visualization ===")
+    tsp.visualize_graph(tour, edge_list=None)  # Complete graph
+    tsp.visualize_graph(tour, edge_list=partial_edges)  # Partial graph
+
+    return tsp, hamiltonian_complete, qubo_complete, hamiltonian_partial, qubo_partial
 
 
 # Helper function for QAOA
