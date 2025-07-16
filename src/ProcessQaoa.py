@@ -32,16 +32,18 @@ def get_backend(num_qubits, use_simulator):
     QiskitRuntimeService.save_account(token=token,instance=instance,overwrite=True)
     service = QiskitRuntimeService()
     if use_simulator:
-        real_backend = service.least_busy(
-            operational=True, simulator=False, min_num_qubits=num_qubits * num_qubits
-        )
+        real_backend = service.backend('ibm_brisbane')
+        # real_backend = service.least_busy(
+        #     operational=True, simulator=False, min_num_qubits=num_qubits * num_qubits
+        # )
         simulator = AerSimulator.from_backend(real_backend)
         # simulator = AerSimulator()
         return simulator
     else:
-        return service.least_busy(
-            operational=True, simulator=False, min_num_qubits=num_qubits * num_qubits
-        )
+        return service.backend('ibm_brisbane')
+        # return service.least_busy(
+        #     operational=True, simulator=False, min_num_qubits=num_qubits * num_qubits,
+        # )
 
 def run_qaoa(
         num_cities,
