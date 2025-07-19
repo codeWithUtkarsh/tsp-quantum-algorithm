@@ -44,7 +44,7 @@ def main():
             penalty_weight=penalty_weight,
             max_iter=max_iter,
             shots=shots,
-            use_simulator = True)
+            use_simulator = use_simulator)
 
 if __name__ == "__main__":
     main()
