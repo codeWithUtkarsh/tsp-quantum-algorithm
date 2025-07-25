@@ -32,6 +32,7 @@ def get_backend(num_qubits, use_simulator):
     QiskitRuntimeService.save_account(token=token,instance=instance,overwrite=True)
     service = QiskitRuntimeService()
     if use_simulator:
+        logger.info("Using Simulator")
         real_backend = service.backend('ibm_brisbane')
         # real_backend = service.least_busy(
         #     operational=True, simulator=False, min_num_qubits=num_qubits * num_qubits
@@ -40,6 +41,7 @@ def get_backend(num_qubits, use_simulator):
         # simulator = AerSimulator()
         return simulator
     else:
+        logger.info("Using Real Hardware")
         return service.backend('ibm_brisbane')
         # return service.least_busy(
         #     operational=True, simulator=False, min_num_qubits=num_qubits * num_qubits,
@@ -63,13 +65,14 @@ def run_qaoa(
     logger.debug(f"Hamiltonian created with {len(cost_hamiltonian)} terms")
 
     # Create QAOA circuit
-    _quantum_circuit = QAOAAnsatz(cost_operator=cost_hamiltonian, reps=p_level)
+    _quantum_circuit = QAOAAnsatz(cost_operator=cost_hamiltonian, reps=1)
     _backend = get_backend(num_cities, use_simulator)
 
     preset_manager = generate_preset_pass_manager(
-        backend=_backend, optimization_level=2, seed_transpiler=42
+        backend=_backend, optimization_level=3, seed_transpiler=42
     )
     isa_circuit = preset_manager.run(_quantum_circuit)
+    isa_circuit.global_phase = 0.0
     quantum_result_attributes = estimate_quantum_circuit(_backend, isa_circuit, num_cities)
 
     # Setup estimator
@@ -105,6 +108,8 @@ def run_qaoa(
     )
     quantum_result_attributes['iterations'] = result['nfev']
     quantum_result_attributes['optimization_time(sec)'] = time.time() - start_time
+    quantum_result_attributes['p_level'] = 1
+    quantum_result_attributes['optimization_level'] = 3
 
     # Sample final circuit
     sampler = Sampler(_backend)
@@ -114,6 +119,9 @@ def run_qaoa(
     final_job = sampler.run([(optimal_circuit, None)], shots=shots)
     final_result = final_job.result()
     distribution = final_result[0].data.meas.get_counts()
+    if not use_simulator:
+        real_execution_time = final_result.metadata['execution']['execution_spans'].duration
+        quantum_result_attributes['real_execution_time'] = real_execution_time
 
     return distribution, quantum_result_attributes
 
@@ -147,6 +155,7 @@ def save_attributes(quantum_result_attributes, num_vertices):
 
 def process(
         num_cities,
+        p_level,
         penalty_weight=0.01,
         max_iter = 100,
         shots = 1000,
@@ -159,8 +168,8 @@ def process(
     # shots = 2000
     # use_simulator = True
 
-    p_level = int(math.ceil(math.log2(num_cities*num_cities)))
-    logger.info(f"Derived p_level:: {p_level}")
+    # p_level = int(math.ceil(math.log2(num_cities*num_cities)))
+    logger.info(f"Using p_level:: {p_level}")
 
     do_classical = True if num_cities < 6 else False
     tsp = ImprovedTSPHamiltonian(num_cities, seed=123)
