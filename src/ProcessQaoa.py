@@ -172,7 +172,7 @@ def process(
     # p_level = int(math.ceil(math.log2(num_cities*num_cities)))
     logger.info(f"Using p_level:: {p_level}")
 
-    do_classical = True if num_cities < 6 else False
+    do_classical = True if num_cities < 8 else False
     tsp = ImprovedTSPHamiltonian(num_cities, seed=123)
 
     optimal_tour_classical = None
