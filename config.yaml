@@ -1,9 +1,9 @@
 output_dir: './saved_result'
 
 optimizers: ['COBYLA']
-num_cities_list: [3]
+num_cities_list: [5]
 penalty_weight: 0.01
-use_simulator: false
+use_simulator: true
 shots: 2000
 max_iter: 100
 p_level: 1
@@ -48,5 +48,8 @@ p_level: 1
 #instance: 'crn:v1:bluemix:public:quantum-computing:us-east:a/ec97de239c4b40d485d1876746e5926e:f215320f-1b5a-433d-a003-45f632bcd437::'
 #token: 'vbbn4e1sMyjywFb8qZOnpEQWePvcXJtWAe2J1-DiwgYb'
 
-instance: 'crn:v1:bluemix:public:quantum-computing:us-east:a/0927c203ddf945d0bebe684c057cff69:50291da9-a053-4f37-866b-6d1cdb3d117d::'
-token: 'Z05fmO5SvYl6FxZKLKsqdUJ0yR-vcd_DVnaLDSWFPDJu'
+#instance: 'crn:v1:bluemix:public:quantum-computing:us-east:a/0927c203ddf945d0bebe684c057cff69:50291da9-a053-4f37-866b-6d1cdb3d117d::'
+#token: 'Z05fmO5SvYl6FxZKLKsqdUJ0yR-vcd_DVnaLDSWFPDJu'
+
+instance: 'crn:v1:bluemix:public:quantum-computing:us-east:a/56c9803ca07a4c2a9753eece2600e4f9:4c79d1a5-3113-4beb-9b3f-4a9fdc89b4a4::'
+token: 'a6LBUC8FvL3dqtI7lFR79i--k87V8kuWrUl-fcsByKij'

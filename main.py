@@ -5,7 +5,6 @@ import yaml
 import logging
 import sys
 import datetime
-import datetime
 from src.ProcessQaoa import process
 
 
@@ -41,14 +40,16 @@ logging.basicConfig(
 def main():
     logging.info(f'++++++++++++++++ Starting at {datetime.datetime.now()} +++++++++++++++++')
 
-    for num_cities in num_cities_list:
-        process(
-            num_cities=num_cities,
-            p_level=p_level,
-            penalty_weight=penalty_weight,
-            max_iter=max_iter,
-            shots=shots,
-            use_simulator = use_simulator)
+    for count in range(1,6):
+        for num_cities in num_cities_list:
+            process(
+                num_cities=num_cities,
+                p_level=p_level,
+                penalty_weight=penalty_weight,
+                max_iter=max_iter,
+                shots=shots,
+                use_simulator = use_simulator,
+                counter= count)
 
 if __name__ == "__main__":
     main()

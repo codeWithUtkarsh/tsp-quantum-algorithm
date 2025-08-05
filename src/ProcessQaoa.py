@@ -148,9 +148,9 @@ def analyse_result_distribution(distribution, num_cities, tsp):
     }
 
 
-def save_attributes(quantum_result_attributes, num_vertices):
+def save_attributes(quantum_result_attributes, num_vertices, counter):
     for key, value in quantum_result_attributes.items():
-        update_experiment_data(num_vertices, key, str(value))
+        update_experiment_data(num_vertices, key, str(value), counter)
 
 
 def process(
@@ -159,7 +159,8 @@ def process(
         penalty_weight=0.01,
         max_iter = 100,
         shots = 1000,
-        use_simulator = True):
+        use_simulator = True,
+        counter=0):
 
     # num_cities = 4
     # penalty_weight = 0.01
@@ -183,8 +184,8 @@ def process(
             if distance < optimal_distance_classical:
                 optimal_distance_classical = distance
                 optimal_tour_classical = tour
-        update_experiment_data(num_cities, "classical_optimal_tour", str(optimal_tour_classical))
-        update_experiment_data(num_cities, "classical_optimal_distance", str(optimal_distance_classical))
+        update_experiment_data(num_cities, "classical_optimal_tour", str(optimal_tour_classical), counter)
+        update_experiment_data(num_cities, "classical_optimal_distance", str(optimal_distance_classical), counter)
 
     logger.debug(f"Running improved TSP QAOA with {num_cities} cities")
     logger.debug("=" * 50)
@@ -204,8 +205,8 @@ def process(
         gap = abs(
             optimal_distance_classical - distribution_attributes['quantum_best_tour_distance']
         ) / optimal_distance_classical * 100
-        update_experiment_data(num_cities, "gap", str(gap))
+        update_experiment_data(num_cities, "gap", str(gap), counter)
         logger.debug(f"Gap from optimal: {gap:.2f}%")
 
-    save_attributes(quantum_result_attributes, num_cities)
-    save_attributes(distribution_attributes, num_cities)
+    save_attributes(quantum_result_attributes, num_cities, counter)
+    save_attributes(distribution_attributes, num_cities, counter)

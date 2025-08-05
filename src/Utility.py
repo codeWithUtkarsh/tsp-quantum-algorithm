@@ -48,10 +48,11 @@ def update_experiment_data(
         num_node: int,
         data_key: str,
         data_value: str,
-        filename: str = 'experiment_data.json',) -> Dict[str, Any]:
+        counter: int,
+        filename: str = 'experiment_data.json') -> Dict[str, Any]:
 
     experiment_data = _load_experiment_data(filename, output_dir)
-    num_nodes_str = str(num_node)
+    num_nodes_str = str(num_node) +"_"+ str(counter)
 
     if num_nodes_str not in experiment_data["experiment_data"]:
         experiment_data["experiment_data"][num_nodes_str] = {}
