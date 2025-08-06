@@ -1,7 +1,7 @@
 output_dir: './saved_result'
 
 optimizers: ['COBYLA']
-num_cities_list: [5]
+num_cities_list: [6]
 penalty_weight: 0.01
 use_simulator: true
 shots: 2000

@@ -87,6 +87,90 @@
     "5_1": {
       "classical_optimal_tour": "[0, 2, 3, 4, 1]",
       "classical_optimal_distance": "19.49402663796681"
+    },
+    "2_1": {
+      "classical_optimal_tour": "[0, 1]",
+      "classical_optimal_distance": "5.129907885145825",
+      "gap": "0.0",
+      "circuit_execution_estimated_time(ns)": "2.969999999999998e-05",
+      "transpiled_circuit_depth": "152",
+      "transpiled_gate_count": "319",
+      "backend_in_use": "AerSimulator('aer_simulator_from(ibm_brisbane)'\n             noise_model=<NoiseModel on ['measure', 'id', 'x', 'reset', 'sx', 'ecr']>)",
+      "iterations": "35",
+      "optimization_time(sec)": "30.169066905975342",
+      "p_level": "1",
+      "optimization_level": "3",
+      "quantum_possible_best_tours": "[[0, 1]]",
+      "quantum_best_tour_found": "[0, 1]",
+      "quantum_best_tour_distance": "5.129907885145825"
+    },
+    "2_2": {
+      "classical_optimal_tour": "[0, 1]",
+      "classical_optimal_distance": "5.129907885145825",
+      "gap": "0.0",
+      "circuit_execution_estimated_time(ns)": "2.969999999999998e-05",
+      "transpiled_circuit_depth": "152",
+      "transpiled_gate_count": "319",
+      "backend_in_use": "AerSimulator('aer_simulator_from(ibm_brisbane)'\n             noise_model=<NoiseModel on ['measure', 'id', 'x', 'reset', 'sx', 'ecr']>)",
+      "iterations": "33",
+      "optimization_time(sec)": "25.62511110305786",
+      "p_level": "1",
+      "optimization_level": "3",
+      "quantum_possible_best_tours": "[[0, 1]]",
+      "quantum_best_tour_found": "[0, 1]",
+      "quantum_best_tour_distance": "5.129907885145825"
+    },
+    "2_3": {
+      "classical_optimal_tour": "[0, 1]",
+      "classical_optimal_distance": "5.129907885145825",
+      "gap": "0.0",
+      "circuit_execution_estimated_time(ns)": "2.969999999999998e-05",
+      "transpiled_circuit_depth": "152",
+      "transpiled_gate_count": "319",
+      "backend_in_use": "AerSimulator('aer_simulator_from(ibm_brisbane)'\n             noise_model=<NoiseModel on ['measure', 'id', 'x', 'reset', 'sx', 'ecr']>)",
+      "iterations": "31",
+      "optimization_time(sec)": "24.551164150238037",
+      "p_level": "1",
+      "optimization_level": "3",
+      "quantum_possible_best_tours": "[[0, 1]]",
+      "quantum_best_tour_found": "[0, 1]",
+      "quantum_best_tour_distance": "5.129907885145825"
+    },
+    "2_4": {
+      "classical_optimal_tour": "[0, 1]",
+      "classical_optimal_distance": "5.129907885145825",
+      "gap": "0.0",
+      "circuit_execution_estimated_time(ns)": "2.969999999999998e-05",
+      "transpiled_circuit_depth": "152",
+      "transpiled_gate_count": "319",
+      "backend_in_use": "AerSimulator('aer_simulator_from(ibm_brisbane)'\n             noise_model=<NoiseModel on ['measure', 'id', 'x', 'reset', 'sx', 'ecr']>)",
+      "iterations": "36",
+      "optimization_time(sec)": "27.560787200927734",
+      "p_level": "1",
+      "optimization_level": "3",
+      "quantum_possible_best_tours": "[[1, 0]]",
+      "quantum_best_tour_found": "[1, 0]",
+      "quantum_best_tour_distance": "5.129907885145825"
+    },
+    "2_5": {
+      "classical_optimal_tour": "[0, 1]",
+      "classical_optimal_distance": "5.129907885145825",
+      "gap": "0.0",
+      "circuit_execution_estimated_time(ns)": "2.969999999999998e-05",
+      "transpiled_circuit_depth": "152",
+      "transpiled_gate_count": "319",
+      "backend_in_use": "AerSimulator('aer_simulator_from(ibm_brisbane)'\n             noise_model=<NoiseModel on ['measure', 'id', 'x', 'reset', 'sx', 'ecr']>)",
+      "iterations": "41",
+      "optimization_time(sec)": "32.78679871559143",
+      "p_level": "1",
+      "optimization_level": "3",
+      "quantum_possible_best_tours": "[[0, 1]]",
+      "quantum_best_tour_found": "[0, 1]",
+      "quantum_best_tour_distance": "5.129907885145825"
+    },
+    "6_1": {
+      "classical_optimal_tour": "[1, 4, 2, 5, 0, 3]",
+      "classical_optimal_distance": "21.6937724192114"
     }
   }
 }
